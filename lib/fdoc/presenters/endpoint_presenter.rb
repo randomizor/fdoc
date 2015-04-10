@@ -52,7 +52,7 @@ class Fdoc::EndpointPresenter < Fdoc::BasePresenter
   end
 
   def response_parameters
-    Fdoc::SchemaPresenter.new(endpoint.response_parameters, options)
+    Fdoc::SchemaPresenter.new(endpoint.response_parameters, options.merge!(response: true))
   end
 
   def response_codes

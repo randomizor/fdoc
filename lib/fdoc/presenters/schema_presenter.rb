@@ -22,6 +22,10 @@ class Fdoc::SchemaPresenter < Fdoc::BasePresenter
   def request?
     options[:request]
   end
+  
+  def response?
+    options[:response]
+  end
 
   def nested?
     options[:nested]
@@ -34,10 +38,10 @@ class Fdoc::SchemaPresenter < Fdoc::BasePresenter
 
     html << '<div class="schema">'
     html << render_markdown(@schema["description"])
-
+    
     html << '<ul>'
     begin
-      html << '<li>Required: %s</li>' % required? if nested?
+      html << '<li>Required: %s</li>' % required? if nested? && show_required?
       html << '<li>Type: %s</li>' % type if type
       html << '<li>Format: %s</li>' % format if format
       html << '<li>Example: %s</li>' % example.to_html if example
@@ -62,7 +66,7 @@ class Fdoc::SchemaPresenter < Fdoc::BasePresenter
     md = StringIO.new
     md << 'Deprecated' if deprecated?
     md << "\n#{@schema["description"]}"
-    md << "\n#{prefix}* __Required__: #{required?}" if nested?
+    md << "\n#{prefix}* __Required__: #{required?}" if nested? && show_required?
     md << "\n#{prefix}* __Type__: #{type}" if type
     md << "\n#{prefix}* __Format__: #{format}" if format
     md << "\n#{prefix}* __Example__: <tt>#{example.to_markdown}</tt>" if example
@@ -92,6 +96,7 @@ class Fdoc::SchemaPresenter < Fdoc::BasePresenter
 
   def type
     t = @schema["type"]
+    
     if t.kind_of? Array
       types = t.map do |type|
         if type.kind_of? Hash
@@ -121,10 +126,6 @@ class Fdoc::SchemaPresenter < Fdoc::BasePresenter
     @schema["deprecated"]
   end
 
-  def required?
-    @schema["required"] ? "yes" : "no"
-  end
-
   def enum_html
     enum = @schema["enum"]
     return unless enum
@@ -142,11 +143,11 @@ class Fdoc::SchemaPresenter < Fdoc::BasePresenter
 
   def items_html
     return unless items = @schema["items"]
-
+        
     html = ""
     html << '<li>Items'
-
-    sub_options = options.merge(:nested => true)
+    
+    sub_options = options.merge({:nested => true})
 
     if items.kind_of? Array
       item.compact.each do |item|
@@ -164,7 +165,7 @@ class Fdoc::SchemaPresenter < Fdoc::BasePresenter
     return unless properties = @schema["properties"]
 
     html = ""
-
+    
     properties.each do |key, property|
       next if property.nil?
       html << '<li>'
@@ -173,7 +174,7 @@ class Fdoc::SchemaPresenter < Fdoc::BasePresenter
         '<tt>%s</tt>' % key,
         schema_slug(key, property)
       )
-      html << self.class.new(property, options.merge(:nested => true)).to_html
+      html << self.class.new(property, options.merge({:nested => true, key: key, required: @schema["required"]})).to_html
       html << '</li>'
     end
 
@@ -183,4 +184,17 @@ class Fdoc::SchemaPresenter < Fdoc::BasePresenter
   def schema_slug(key, property)
     "#{key}-#{property.hash}"
   end
+  
+  def required?
+    options[:required].include?(options[:key]) rescue false
+  end
+  
+  def hide_required?
+    options[:hide_required]
+  end
+  
+  def show_required?
+    !hide_required? && request?
+  end
+  
 end
