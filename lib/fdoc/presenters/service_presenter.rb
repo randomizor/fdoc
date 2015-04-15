@@ -37,12 +37,12 @@ class Fdoc::ServicePresenter < Fdoc::BasePresenter
     if !@endpoints
       @endpoints = []
       prefix = nil
-
+      
       service.endpoints.sort_by(&:endpoint_path).each do |endpoint|
         presenter = Fdoc::EndpointPresenter.new(endpoint, options)
         presenter.service_presenter = self
         presenter
-
+                
         current_prefix = presenter.prefix
 
         @endpoints << [] if prefix != current_prefix

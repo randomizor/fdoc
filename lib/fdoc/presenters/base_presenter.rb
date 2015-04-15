@@ -50,7 +50,7 @@ class Fdoc::BasePresenter
   end
 
   def tag_with_anchor(tag, content, anchor_slug = nil)
-    anchor_slug ||= content.downcase.gsub(' ', '_')
+    anchor_slug ||= (content.downcase.gsub(' ', '_') rescue nil)
     <<-EOS
     <#{tag} id="#{anchor_slug}">
       <a href="##{anchor_slug}" class="anchor">

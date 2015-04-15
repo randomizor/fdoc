@@ -1,6 +1,6 @@
 <span class="endpoint-name <%= 'deprecated' if deprecated? -%>">
   <span class="verb"><%= endpoint.verb %></span>
-  <span class="root"><%= base_path %></span>
+  <span class="root"><%= path.empty? ? base_path.chomp("/") : base_path %></span>
   <span class="path"><%= path %></span>
   <% if deprecated? %>
   (deprecated)

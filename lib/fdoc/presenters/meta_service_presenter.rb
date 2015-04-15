@@ -29,16 +29,18 @@ class Fdoc::MetaServicePresenter < Fdoc::BasePresenter
         Fdoc::ServicePresenter.new(service, options)
       end
   end
-
+  
   def endpoints
     if !@endpoints
       @endpoints = []
       prefix = nil
 
       ungrouped_endpoints.each do |endpoint|
+        
         presenter = presenter_from_endpoint(endpoint)
+                
         current_prefix = presenter.prefix
-
+                
         @endpoints << [] if prefix != current_prefix
         @endpoints.last << presenter
 

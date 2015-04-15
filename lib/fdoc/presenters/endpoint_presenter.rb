@@ -25,7 +25,16 @@ class Fdoc::EndpointPresenter < Fdoc::BasePresenter
   end
 
   def prefix
-    endpoint.path.split("/").first
+    
+    p = endpoint.path.split("/").first
+    
+    if p.nil? || p.empty?
+      split = endpoint.endpoint_path.split("/")
+      p = split[split.length - 2]
+    end
+    
+    return p
+    
   end
 
   def zws_ify(str)
