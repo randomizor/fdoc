@@ -7,7 +7,6 @@ class Fdoc::SchemaPresenter < Fdoc::BasePresenter
     required
     example
     deprecated
-    default
     format
     enum
     items
