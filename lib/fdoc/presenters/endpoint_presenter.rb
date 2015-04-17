@@ -49,6 +49,10 @@ class Fdoc::EndpointPresenter < Fdoc::BasePresenter
   def show_request?
     !endpoint.request_parameters.empty?
   end
+  
+  def show_sample?
+    !endpoint.sample_parameters.empty?
+  end
 
   def show_response?
     !endpoint.response_parameters.empty?
@@ -57,6 +61,12 @@ class Fdoc::EndpointPresenter < Fdoc::BasePresenter
   def request_parameters
     Fdoc::SchemaPresenter.new(endpoint.request_parameters,
       options.merge(:request => true)
+    )
+  end
+  
+  def sample_parameters
+    Fdoc::SamplePresenter.new(endpoint.sample_parameters,
+      options.merge(:sample => true)
     )
   end
 

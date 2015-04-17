@@ -6,6 +6,9 @@
     </title>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
     <link rel="stylesheet" type="text/css" href="<%= css_path %>" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/github.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
   </head>
   <body>
     <div id="page">
@@ -35,6 +38,13 @@
 
           <%= tag_with_anchor('h3', 'Request Parameters') %>
           <%= request_parameters.to_html %>
+        <% end %>
+        
+        <% if show_sample? %>
+          <%= tag_with_anchor('h2', 'Samples') %>
+
+          <%= tag_with_anchor('h3', 'Sample Parameters') %>
+          <%= sample_parameters.to_html %>
         <% end %>
 
         <%= tag_with_anchor('h2', 'Response') %>

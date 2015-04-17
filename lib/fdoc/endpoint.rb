@@ -65,6 +65,10 @@ class Fdoc::Endpoint
   def request_parameters
     @schema["requestParameters"] ||= {}
   end
+  
+  def sample_parameters
+    @schema["sampleParameters"] ||= {}
+  end
 
   def response_parameters
     @schema["responseParameters"] ||= {}

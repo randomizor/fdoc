@@ -25,12 +25,17 @@ class Fdoc::SchemaPresenter < Fdoc::BasePresenter
   def response?
     options[:response]
   end
+  
+  def sample?
+    options[:sample]
+  end
 
   def nested?
     options[:nested]
   end
 
   def to_html
+    
     html = StringIO.new
 
     html << '<span class="deprecated">Deprecated</span>' if deprecated?
