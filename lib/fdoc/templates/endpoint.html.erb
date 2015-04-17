@@ -35,18 +35,16 @@
 
           <%= tag_with_anchor('h3', 'Example Request') %>
           <%= example_request.to_html %>
-
+          
+          <% if show_sample? %>
+            <%= tag_with_anchor('h3', 'Sample Parameters') %>
+            <%= sample_parameters.to_html %>
+          <% end %>
+          
           <%= tag_with_anchor('h3', 'Request Parameters') %>
           <%= request_parameters.to_html %>
         <% end %>
         
-        <% if show_sample? %>
-          <%= tag_with_anchor('h2', 'Samples') %>
-
-          <%= tag_with_anchor('h3', 'Sample Parameters') %>
-          <%= sample_parameters.to_html %>
-        <% end %>
-
         <%= tag_with_anchor('h2', 'Response') %>
         <% if show_response? %>
           <%= tag_with_anchor('h3', 'Example Response') %>

@@ -6,7 +6,6 @@ class Fdoc::SamplePresenter < Fdoc::BasePresenter
   end
   
   def to_html
-    puts @schema
     
     html = StringIO.new
 
@@ -15,7 +14,7 @@ class Fdoc::SamplePresenter < Fdoc::BasePresenter
     
     html << '<ul>'
     begin
-      @schema.each do |key, values|
+      @schema.each do |key, properties|
         
         html << '<li>'
         html << tag_with_anchor(
@@ -23,7 +22,13 @@ class Fdoc::SamplePresenter < Fdoc::BasePresenter
           '<tt>%s</tt>' % key
         )
         
-        values.each do |value|
+        if properties["description"]        
+          html << '<div class="schema">'
+            html << '<p>' + properties["description"] + '</p>'
+          html << '</div>'
+        end
+        
+        properties["values"].each do |value|
           html << '<div class="schema">'
           html << '<ul>'
             html << '<li>'
