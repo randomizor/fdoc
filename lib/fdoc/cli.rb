@@ -24,6 +24,7 @@ module Fdoc
     method_option :url_base_path, :aliases => "-u", :desc => "URL base path"
     method_option :format, :aliases => "-f", :desc => "Format in html or markdown, defaults to html", :default => "html"
     method_option :templates, :aliases => "-t", :desc => "Template overrides path"
+    
     def convert(fdoc_path)
       say_status nil, "Converting fdoc to #{options[:format]}"
 
