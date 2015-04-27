@@ -11,6 +11,7 @@ class Fdoc::SchemaPresenter < Fdoc::BasePresenter
     enum
     items
     properties
+    show
   )
 
   def initialize(schema, options)
@@ -166,7 +167,8 @@ class Fdoc::SchemaPresenter < Fdoc::BasePresenter
   end
 
   def properties_html
-    return unless properties = @schema["properties"]
+    properties = @schema["properties"]
+    return if !properties || @schema["show"] == false
 
     html = ""
     
